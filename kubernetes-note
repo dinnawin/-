@@ -1,0 +1,6 @@
+## StatefulSet 存储卷
+PVC_name === volumeClaimTemplates_name + "-" + pod_name
+所以这个问题就有点意思了，我们要先创建PVC，但是PVC的名称实际上是由StatefulSet来确定的。我真的是不知道K8S设计者咋想的·····而且官方文档里创建StatefulSet的例子是直接给了个yaml文件，并没有告诉说要先创建什么再创建什么。
+
+创建Service 和 StatefulSet
+在上一步中我们已经创建了名为db-mysql-0的PVC了，接下来创建一个service和statefulset，service的名称可以随意取，但是statefulset的名称已经定死了，为mysql，并且statefulset中的volumeClaimTemplates_name必须为db，volumeMounts_name也必须为db。只有这样，statefulset中的pod才能通过命名来匹配到PVC，否则会创建失败。
